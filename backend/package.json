@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Task Manager App Backend",
+  "main": "index.js",
+  "devDependencies": {},
+  "keywords": [
+    "task",
+    "manager",
+    "app",
+    "todo",
+    "list",
+    "backend"
+  ],
+  "author": "Md Sabbir Khan Oni",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.1"
+  }
+}
