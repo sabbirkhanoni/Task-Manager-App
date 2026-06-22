@@ -13,18 +13,9 @@ export const signUpService = async (payload) => {
     throw new Error("Invalid email format");
   }
 
-  const passwordRegexNumberCriteria = /^.{6,26}$/;
+  const passwordRegexNumberCriteria = /^.{5,26}$/;
   if (!passwordRegexNumberCriteria.test(password)) {
-    throw new Error(
-      "Password must be 6-26 characters long",
-    );
-  }
-
-  const passwordRegexCharCriteria = /^(?=.*[a-zA-Z]).+$/;
-  if (!passwordRegexCharCriteria.test(password)) {
-    throw new Error(
-      "Password must contain at least one uppercase letter or lowercase letter",
-    );
+    throw new Error("Password must be minimum 5 characters long");
   }
 
   const user = await UserModel.findOne({ email });
@@ -42,4 +33,40 @@ export const signUpService = async (payload) => {
     password: hashedPassword,
   });
   await newUser.save();
+};
+
+export const loginService = async (payload) => {
+  const { email, password } = payload;
+
+  if (!email || !password) {
+    throw new Error("Email and password are required");
+  }
+
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+  if (!emailRegex.test(email)) {
+    throw new Error("Invalid email format");
+  }
+
+   const passwordRegexNumberCriteria = /^.{5,26}$/;
+  if (!passwordRegexNumberCriteria.test(password)) {
+    throw new Error("Password must be minimum 5 characters long");
+  }
+
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Invalid password");
+  }
+  // Return user data without hashed password
+  return {
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    },
+  };
 };
