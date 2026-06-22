@@ -1,50 +1,35 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
 
-const isAuthenticated = async (request, response, next) => {
+const isAuthenticated = (req, res, next) => {
+  let token;
+
+  // Check header
+  const authHeader = req.headers.authorization;
+
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    token = authHeader.split(" ")[1];
+  }
+
+  // No token
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Not authorized, no token found"
+    });
+  }
+
   try {
-    const token =
-      request.cookies.accessToken ||
-      request?.headers?.authorization?.split(" ")[1];
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!token) {
-      return response.status(401).json({
-        message: "Please Login to Access this Resource",
-        error: true,
-        success: false,
-      });
-    }
-
-    const secret = process.env.SECRET_KEY_ACCESS_TOKEN;
-    if (!secret) {
-      console.error("Missing SECRET_KEY_ACCESS_TOKEN in environment variables");
-      return response.status(500).json({
-        message: "Server configuration error",
-        error: true,
-        success: false,
-      });
-    }
-
-    //decode the token
-    const decode = await jwt.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
-
-    if (!decode) {
-      return response.status(402).json({
-        message: "Unauthorized Access, Access Denied",
-        error: true,
-        success: false,
-      });
-    }
-
-    request.userId = decode.id;
+    // Attach user info to request
+    req.user = decoded;
 
     next();
   } catch (error) {
-    return response.status(500).json({
-      message: "Internal Server Error" || error.message || error,
-      error: true,
+    return res.status(401).json({
       success: false,
+      message: "Token invalid or expired"
     });
   }
 };
