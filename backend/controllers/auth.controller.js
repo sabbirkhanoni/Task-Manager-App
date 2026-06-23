@@ -90,8 +90,8 @@ export const loginController = async (request, response) => {
 
     // Set the token in an HTTP-only cookie
     response.cookie("token", token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: process.env.NODE_ENV === "production" ? true : false,
+      secure: process.env.NODE_ENV === "production" ? true : false,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
@@ -134,6 +134,28 @@ export const getMeController = async (request, response) => {
   } catch (error) {
     return response.status(500).json({
       message: error.message || "Failed to authenticate user",
+      error: true,
+      success: false,
+    });
+  }
+};
+
+
+export const logoutController = (request, response) => {
+  try {
+    response.clearCookie("token", {
+      httpOnly: process.env.NODE_ENV === "production" ? true : false,
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    return response.json({
+      message: "Logged out successfully",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || "Failed to log out",
       error: true,
       success: false,
     });
