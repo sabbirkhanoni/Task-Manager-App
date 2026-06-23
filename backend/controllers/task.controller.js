@@ -4,6 +4,7 @@ import {
   updateTaskService,
   deleteTaskService,
   searchAndFilterTasksService,
+  getTaskAnalyticsService,
 } from "../services/task.service.js";
 
 export const createTaskController = async (request, response) => {
@@ -147,3 +148,22 @@ export const searchAndFilterTasksController = async (request, response) => {
     });
   }
 };
+
+
+export const getTaskAnalyticsController = async (request, response) => {
+  try {
+    const tasks = await getTaskAnalyticsService();
+    response.status(200).json({
+      message: "Task analytics retrieved successfully",
+      error: false,
+      success: true,
+      data: tasks,
+    });
+  } catch (error) {
+    response.status(400).json({
+      message: error.message || "Failed to retrieve task analytics",
+      error: true,
+      success: false,
+    });
+  }
+}

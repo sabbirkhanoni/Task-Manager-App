@@ -61,3 +61,22 @@ export const searchAndFilterTasksService = async ({ search, status }) => {
 
   return await TaskModel.find(filters).sort({ createdAt: -1 });
 };
+
+export const getTaskAnalyticsService = async () => {
+  const tasks = await TaskModel.find({});
+
+  const total = tasks.length;
+
+  const done = tasks.filter((t) => t.status === "Done").length;
+
+  const inProgress = tasks.filter((t) => t.status === "In Progress").length;
+
+  const todo = tasks.filter((t) => t.status === "To Do").length;
+
+  return {
+    total,
+    done,
+    inProgress,
+    todo,
+  };
+};

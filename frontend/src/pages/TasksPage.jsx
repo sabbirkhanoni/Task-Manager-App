@@ -15,46 +15,65 @@ import TaskCard from "../components/tasks/TaskCard";
 
 const STATS = [
   {
+    key: "total",
     title: "Total Tasks",
     icon: FiLayout,
     gradient: "bg-gradient-to-br from-indigo-500 to-purple-600",
-    iconColor: "text-white",
   },
   {
+    key: "todo",
     title: "To Do",
     icon: FiCircle,
     gradient: "bg-gradient-to-br from-blue-500 to-cyan-500",
-    iconColor: "text-white",
   },
   {
+    key: "inProgress",
     title: "In Progress",
     icon: FiLoader,
     gradient: "bg-gradient-to-br from-orange-400 to-amber-400",
-    iconColor: "text-white",
   },
   {
+    key: "done",
     title: "Done",
     icon: FiCheckCircle,
     gradient: "bg-gradient-to-br from-emerald-500 to-teal-400",
-    iconColor: "text-white",
   },
 ];
 
 const TasksPage = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-
   const [tasks, setTasks] = useState([]);
+
+  const [tasksAnalytics, setTasksAnalytics] = useState({
+    total: 0,
+    done: 0,
+    inProgress: 0,
+    todo: 0,
+  });
   const [loading, setLoading] = useState(false);
 
-  const pct =
-    Math.round(
-      (tasks.filter((t) => t.status === "Done").length / tasks.length) * 100,
-    ) || 0;
+  const pct = tasksAnalytics.total
+    ? Math.round((tasksAnalytics.done / tasksAnalytics.total) * 100)
+    : 0;
 
   const handleOnClear = async () => {
     setSearch("");
     setStatusFilter("all");
+  };
+
+  const fetchTasksAnalytics = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/tasks/analytics`,
+        {
+          withCredentials: true,
+        },
+      );
+      setTasksAnalytics(response.data.data);
+    } catch (error) {
+      console.error("Error fetching tasks analytics:", error);
+    }
   };
 
   const searchAndFilterTasks = async () => {
@@ -73,8 +92,7 @@ const TasksPage = () => {
       setTasks(response.data.data);
     } catch (error) {
       console.error("Error searching/filtering tasks:", error);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -83,13 +101,23 @@ const TasksPage = () => {
     searchAndFilterTasks();
   }, [search, statusFilter]);
 
+  useEffect(() => {
+    fetchTasksAnalytics();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-blue-50 to-emerald-50 p-6 md:p-5">
       <div className="max-w-6xl mx-auto space-y-3">
         {/* Stat Cards */}
         <div className="flex gap-4 flex-wrap">
           {STATS.map((s) => (
-            <StatCard key={s.title} {...s} />
+            <StatCard
+              key={s.key}
+              title={s.title}
+              icon={s.icon}
+              gradient={s.gradient}
+              value={tasksAnalytics[s.key]}
+            />
           ))}
         </div>
 
@@ -166,7 +194,16 @@ const TasksPage = () => {
               <p className="text-sm">No tasks match your filters.</p>
             </div>
           ) : (
-            tasks.map((t) => <TaskCard key={t.id} {...t} />)
+            tasks.map((t) => (
+              <TaskCard
+                key={t._id}
+                id={t._id}
+                title={t.title}
+                description={t.description}
+                status={t.status}
+                createdAt={t.createdAt}
+              />
+            ))
           )}
         </div>
       </div>
