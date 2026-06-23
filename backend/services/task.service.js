@@ -43,17 +43,21 @@ export const deleteTaskService = async (id) => {
   await TaskModel.findByIdAndDelete(id);
 };
 
-export const searchAndFilterTasksService = async (query) => {
-  const { search, status } = query;
-
+export const searchAndFilterTasksService = async ({ search, status }) => {
   const filters = {};
-  if (search) {
-    filters.title = { $regex: search, $options: "i" }; // Case-insensitive search
+
+  // Search by title OR description
+  if (search?.trim()) {
+    filters.$or = [
+      { title: { $regex: search.trim(), $options: "i" } },
+      { description: { $regex: search.trim(), $options: "i" } },
+    ];
   }
-  if (status) {
+
+  // Filter by status
+  if (status && status !== "all") {
     filters.status = status;
   }
 
-  const tasks = await TaskModel.find(filters);
-  return tasks;
+  return await TaskModel.find(filters).sort({ createdAt: -1 });
 };

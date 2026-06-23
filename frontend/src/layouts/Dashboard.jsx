@@ -1,10 +1,9 @@
 import React from 'react'
+import TasksPage from '../pages/TasksPage'
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <TasksPage />
   )
 }
 
