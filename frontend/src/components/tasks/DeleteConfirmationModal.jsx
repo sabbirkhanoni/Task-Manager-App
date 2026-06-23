@@ -3,9 +3,11 @@ import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import AxiosToastError from "../../../utils/AxiosToastError";
 import toast from "react-hot-toast";
+import { useTask } from "../../contexts/TaskContext";
 
 const DeleteConfirmationModal = (props) => {
   const { id, onClose } = props;
+  const { fetchAllTasks } = useTask();
 
   const handleClearScene = async () => {
     try {
@@ -21,6 +23,7 @@ const DeleteConfirmationModal = (props) => {
       if (response.data.success) {
         toast.success(response.data.message);
         onClose();
+        fetchAllTasks(); // Refresh the task list after deletion
       }
     } catch (error) {
       AxiosToastError(error);

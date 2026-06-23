@@ -3,10 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import AxiosToastError from "../../../utils/AxiosToastError";
 import { FiX, FiEdit3 } from "react-icons/fi";
+import { useTask } from "../../contexts/TaskContext";
 
 const EditTaskForm = (props) => {
   const { onClose, tasks } = props;
   const { id, title, description, status } = tasks;
+  const { fetchAllTasks } = useTask();
 
   const [data, setData] = useState({
     title: tasks.title,
@@ -32,6 +34,7 @@ const EditTaskForm = (props) => {
       if (response.data.success) {
         toast.success(response.data.message);
         onClose();
+        fetchAllTasks(); // Refresh the task list after editing
       }
     } catch (error) {
       AxiosToastError(error);

@@ -3,9 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import AxiosToastError from "../../../utils/AxiosToastError";
 import { FiX, FiEdit3 } from "react-icons/fi";
+import { useTask } from "../../contexts/TaskContext";
 
 const AddNewTaskForm = (props) => {
   const { onClose } = props;
+  const { fetchAllTasks } = useTask();
 
   const [data, setData] = useState({
     title: "",
@@ -31,6 +33,7 @@ const AddNewTaskForm = (props) => {
       if (response.data.success) {
         toast.success(response.data.message);
         onClose();
+        fetchAllTasks(); // Refresh the task list after adding a new task
       }
     } catch (error) {
       AxiosToastError(error);

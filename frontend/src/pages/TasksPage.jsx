@@ -13,6 +13,7 @@ import {
 import StatCard from "../components/tasks/StatCard";
 import TaskCard from "../components/tasks/TaskCard";
 import AddNewTaskForm from "../components/tasks/AddNewTaskForm";
+import { useTask } from "../contexts/TaskContext";
 
 const STATS = [
   {
@@ -45,7 +46,8 @@ const TasksPage = () => {
   const [openAddNewTaskModal, setOpenAddNewTaskModal] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [tasks, setTasks] = useState([]);
+  
+  const { tasks, setTasks } = useTask();
 
   const [tasksAnalytics, setTasksAnalytics] = useState({
     total: 0,
@@ -72,7 +74,12 @@ const TasksPage = () => {
           withCredentials: true,
         },
       );
-      setTasksAnalytics(response.data.data);
+      if (response.data.error) {
+        console.error("Error fetching tasks analytics:", response.data.message);
+      }
+      if (response.data.success) {
+        setTasksAnalytics(response.data.data);
+      }
     } catch (error) {
       console.error("Error fetching tasks analytics:", error);
     }
