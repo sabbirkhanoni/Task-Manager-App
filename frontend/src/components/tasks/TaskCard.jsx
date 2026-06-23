@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { FiEdit2, FiTrash2, FiMessageSquare } from "react-icons/fi";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import EditTaskForm from "./EditTaskForm";
 
 const TaskCard = (props) => {
-  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] = useState(false);
+  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
+    useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const { id, title, description, status, createdAt } = props;
   return (
     <>
@@ -36,7 +39,10 @@ const TaskCard = (props) => {
           </div>
 
           <div className="flex gap-1.5">
-            <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors">
+            <button
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors"
+              onClick={() => setOpenEditModal(true)}
+            >
               <FiEdit2 size={11} /> Edit
             </button>
             <button
@@ -53,6 +59,10 @@ const TaskCard = (props) => {
           onClose={() => setOpenDeleteConfirmationModal(false)}
           id={id}
         />
+      )}
+
+      {openEditModal && (
+        <EditTaskForm onClose={() => setOpenEditModal(false)} tasks={{ id, title, description, status }} />
       )}
     </>
   );
