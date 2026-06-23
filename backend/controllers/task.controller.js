@@ -2,6 +2,8 @@ import {
   createTaskService,
   getAllTasksService,
   updateTaskService,
+  deleteTaskService,
+  searchAndFilterTasksService,
 } from "../services/task.service.js";
 
 export const createTaskController = async (request, response) => {
@@ -99,8 +101,49 @@ export const updateTaskController = async (request, response) => {
   }
 };
 
+export const deleteTaskController = async (request, response) => {
+  try {
+    const { id } = request.params;
 
+    if (!id) {
+      return response.status(400).json({
+        message: "Task ID is required",
+        error: true,
+        success: false,
+      });
+    }
 
+    await deleteTaskService(id);
+    response.status(200).json({
+      message: "Task deleted successfully",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    response.status(400).json({
+      message: error.message || "Failed to delete task",
+      error: true,
+      success: false,
+    });
+  }
+};
 
+export const searchAndFilterTasksController = async (request, response) => {
+  try {
+    const { search, status } = request.query;
 
-
+    const tasks = await searchAndFilterTasksService({ search, status });
+    response.status(200).json({
+      message: "Tasks retrieved successfully",
+      error: false,
+      success: true,
+      data: tasks,
+    });
+  } catch (error) {
+    response.status(400).json({
+      message: error.message || "Failed to retrieve tasks",
+      error: true,
+      success: false,
+    });
+  }
+};

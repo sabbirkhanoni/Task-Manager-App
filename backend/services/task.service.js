@@ -19,7 +19,7 @@ export const getAllTasksService = async () => {
 
 export const updateTaskService = async (id, payload) => {
   const { title, description, status } = payload;
-  
+
   const existingTask = await TaskModel.findById(id);
   if (!existingTask) {
     throw new Error("Task not found");
@@ -32,4 +32,28 @@ export const updateTaskService = async (id, payload) => {
   );
 
   return updatedTask;
+};
+
+export const deleteTaskService = async (id) => {
+  const existingTask = await TaskModel.findById(id);
+  if (!existingTask) {
+    throw new Error("Task not found");
+  }
+
+  await TaskModel.findByIdAndDelete(id);
+};
+
+export const searchAndFilterTasksService = async (query) => {
+  const { search, status } = query;
+
+  const filters = {};
+  if (search) {
+    filters.title = { $regex: search, $options: "i" }; // Case-insensitive search
+  }
+  if (status) {
+    filters.status = status;
+  }
+
+  const tasks = await TaskModel.find(filters);
+  return tasks;
 };
