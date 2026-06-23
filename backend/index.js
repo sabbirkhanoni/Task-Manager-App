@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./config/connectDB.js";
 import authRoutes from "./routes/auth.route.js";
@@ -12,6 +13,8 @@ const ORIGIN = process.env.FRONTEND_URL;
 
 const app = express();
 
+app.use(cookieParser());
+
 //cors middleware
 app.use(
   cors({
@@ -22,6 +25,7 @@ app.use(
 
 app.use(express.json());
 app.use(morgan("dev"));
+
 
 app.get("/", (request, response) => {
   response.json({

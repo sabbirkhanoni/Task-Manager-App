@@ -1,4 +1,8 @@
-import { signUpService, loginService } from "../services/auth.service.js";
+import {
+  signUpService,
+  loginService,
+  getMeService,
+} from "../services/auth.service.js";
 import generateJWTtoken from "../utils/generateJWTtoken.js";
 
 export const signUpController = async (request, response) => {
@@ -84,6 +88,13 @@ export const loginController = async (request, response) => {
     // Generate JWT token
     const token = generateJWTtoken(user.user._id);
 
+    // Set the token in an HTTP-only cookie
+    response.cookie("token", token, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
     return response.status(200).json({
       message: "Login successfully",
       error: false,
@@ -101,7 +112,8 @@ export const loginController = async (request, response) => {
 
 export const getMeController = async (request, response) => {
   try {
-    const userId = request.userId; // from the isAuthenticated middleware
+    const userId = request.user?.id;
+    console.log("User ID from token:", userId);
     if (!userId) {
       return response.status(401).json({
         message: "Unauthorized, Please login to access this resource",
