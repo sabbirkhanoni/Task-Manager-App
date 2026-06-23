@@ -4,20 +4,6 @@ import UserModel from "../models/user.model.js";
 export const signUpService = async (payload) => {
   const { name, email, password } = payload;
 
-  if (!name || !email || !password) {
-    throw new Error("Name, email and password are required");
-  }
-
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  if (!emailRegex.test(email)) {
-    throw new Error("Invalid email format");
-  }
-
-  const passwordRegexNumberCriteria = /^.{5,26}$/;
-  if (!passwordRegexNumberCriteria.test(password)) {
-    throw new Error("Password must be minimum 5 characters long");
-  }
-
   const user = await UserModel.findOne({ email });
   if (user) {
     throw new Error("User already exists");
@@ -38,20 +24,6 @@ export const signUpService = async (payload) => {
 export const loginService = async (payload) => {
   const { email, password } = payload;
 
-  if (!email || !password) {
-    throw new Error("Email and password are required");
-  }
-
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  if (!emailRegex.test(email)) {
-    throw new Error("Invalid email format");
-  }
-
-   const passwordRegexNumberCriteria = /^.{5,26}$/;
-  if (!passwordRegexNumberCriteria.test(password)) {
-    throw new Error("Password must be minimum 5 characters long");
-  }
-
   const user = await UserModel.findOne({ email });
   if (!user) {
     throw new Error("User not found");
@@ -61,6 +33,7 @@ export const loginService = async (payload) => {
   if (!isMatch) {
     throw new Error("Invalid password");
   }
+  
   // Return user data without hashed password
   return {
     user: {
@@ -69,4 +42,15 @@ export const loginService = async (payload) => {
       email: user.email,
     },
   };
+};
+
+export const getMeService = async (userId) => {
+  // Exclude password field
+  const user = await UserModel.findById(userId).select("-password");
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user;
 };
