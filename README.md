@@ -13,6 +13,9 @@
 
 [Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Project Structure](#-project-structure) · [API Docs](#-api-documentation) · [Screenshots](#-screenshots)
 
+### Live Demo : https://pitaskapp.vercel.app
+### Backend APIs Full Details: https://github.com/sabbirkhanoni/Task-Manager-App/blob/main/backend/README.md
+
 </div>
 
 ---
@@ -23,21 +26,18 @@ Task Manager App is a clean, functional full-stack web application that lets aut
 
 ---
 
-### Live Demo : https://pitaskapp.vercel.app
-### Backend APIs Full Details: https://github.com/sabbirkhanoni/Task-Manager-App/blob/main/backend/README.md
-
 ---
 
 ## ✨ Features
 
-- 🔐 **User Authentication** — Secure signup, login, and logout using JWT stored in HTTP-only cookies
-- ✅ **Task CRUD** — Create, view, update, and delete tasks
-- 🔍 **Real-time Search & Filter** — Search by title/description and filter by status instantly
-- 📊 **Task Analytics** — Dashboard with Total, To Do, In Progress, and Done counts
-- 🛡️ **Protected Routes** — Unauthenticated users are redirected to login automatically
-- 🍞 **Toast Notifications** — Instant success/error feedback on every action
-- 📱 **Responsive Design** — Works on all screen sizes
-- 🎨 **Premium UI** — Colorful gradient stat cards, hover effects, progress bars
+- 🔐 **User Authentication** - Secure signup, login, and logout using JWT stored in HTTP-only cookies
+- ✅ **Task CRUD** - Create, view, update, and delete tasks
+- 🔍 **Search & Filter** - Search by title/description and filter by status instantly
+- 📊 **Task Analytics** - Dashboard with Total, To Do, In Progress, and Done counts
+- 🛡️ **Protected Routes** - Unauthenticated users are redirected to login automatically
+- 🍞 **Toast Notifications** - Instant success/error feedback on every action
+- 📱 **Responsive Design** - Works on all screen sizes
+- 🎨 **Premium UI** - Colorful gradient stat cards, hover effects, progress bars
 
 ---
 
@@ -160,6 +160,13 @@ Visit **[http://localhost:5173](http://localhost:5173)** — you'll be redirecte
 
 ---
 
+UI Screen Shots:
+<img width="1920" height="1472" alt="screencapture-pitaskapp-vercel-app-signup-2026-06-24-13_37_32" src="https://github.com/user-attachments/assets/78eb59e2-22fc-4745-a530-8dd4f26bc83f" />
+<img width="1920" height="1472" alt="screencapture-pitaskapp-vercel-app-2026-06-24-13_37_13" src="https://github.com/user-attachments/assets/0aa4cd04-46ed-40ec-b6c4-d3962b1a140a" />
+<img width="1920" height="1548" alt="screencapture-pitaskapp-vercel-app-dashboard-2026-06-24-13_36_45" src="https://github.com/user-attachments/assets/bbc055ce-efee-4381-9531-aeec308bb8db" />
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -264,7 +271,7 @@ http://localhost:5000
   "message": "Operation successful",
   "error": false,
   "success": true,
-  "data": {}
+  "data": {}  // Optional
 }
 
 // Error
@@ -287,8 +294,6 @@ POST /api/auth/login
 Backend verifies credentials → generates JWT
         ↓
 JWT stored in HTTP-only cookie (not accessible via JS)
-        ↓
-Every subsequent request includes cookie automatically
         ↓
 isAuthenticated middleware verifies JWT on protected routes
         ↓
@@ -351,8 +356,6 @@ npm start      # Start with node (production)
 ```bash
 npm run dev      # Start Vite dev server
 npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
 ```
 
 ---
