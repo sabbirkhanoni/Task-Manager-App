@@ -43,7 +43,7 @@ const UnauthorizedPage = () => {
             You don’t have permission to view this page
           </p>
           <Link
-            to="/login"
+            to="/"
             className="mt-4 px-4 py-2 bg-red-500/50 border-1 border-red-600 text-white rounded cursor-pointer hover:bg-red-500 transition-all duration-200 inline-block"
           >
             Please Properly Login to Continue
