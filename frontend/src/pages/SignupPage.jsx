@@ -61,7 +61,7 @@ const SignupPage = () => {
         confirmPassword: ""
       });
 
-      navigate('/login');
+      navigate('/');
     } else {
       toast.error(response.data.error || response.data.message)
     }
@@ -211,7 +211,7 @@ const SignupPage = () => {
 
               <p className="text-center text-sm mt-7 text-gray-600">
                   Already have an account?
-                  <Link to={"/login"} className="text-blue-600 hover:text-blue-700 font-medium">
+                  <Link to={"/"} className="text-blue-600 hover:text-blue-700 font-medium">
                     Sign in
                   </Link>
                 </p>

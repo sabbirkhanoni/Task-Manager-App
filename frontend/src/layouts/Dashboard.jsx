@@ -3,7 +3,10 @@ import TasksPage from '../pages/TasksPage'
 
 const Dashboard = () => {
   return (
-    <TasksPage />
+    <>
+      <Header />
+      <TasksPage />
+    </>
   )
 }
 

@@ -144,15 +144,6 @@ const LoginPage = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Link
-                    to={"/forgot-password"}
-                    className="block text-lg text-right text-gray-600 hover:text-blue-700 font-medium mt-0"
-                  >
-                    Forgot Password?
-                  </Link>
-                </div>
-
                 <button
                   disabled={!validValueOfEveryInput}
                   type="submit"
