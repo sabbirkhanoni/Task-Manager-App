@@ -105,7 +105,7 @@ const SignupPage = () => {
             <div className="relative">
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Create An Account</h1>
-                <p className="text-gray-600">Join our community of VRSM</p>
+                <p className="text-gray-600">Join our community of TMA enthusiasts</p>
               </div>
 
               <form className="space-y-3" onSubmit={handleSubmit}>

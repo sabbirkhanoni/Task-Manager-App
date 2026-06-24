@@ -94,7 +94,7 @@ const LoginPage = () => {
                     Login Account
                   </h1>
                   <p className="text-gray-600">
-                    Join our community of VR enthusiasts
+                    Welcome! Please enter your details to sign in.
                   </p>
                 </div>
 
