@@ -164,6 +164,11 @@ UI Screen Shots:
 <img width="1920" height="1472" alt="screencapture-pitaskapp-vercel-app-signup-2026-06-24-13_37_32" src="https://github.com/user-attachments/assets/78eb59e2-22fc-4745-a530-8dd4f26bc83f" />
 <img width="1920" height="1472" alt="screencapture-pitaskapp-vercel-app-2026-06-24-13_37_13" src="https://github.com/user-attachments/assets/0aa4cd04-46ed-40ec-b6c4-d3962b1a140a" />
 <img width="1920" height="1548" alt="screencapture-pitaskapp-vercel-app-dashboard-2026-06-24-13_36_45" src="https://github.com/user-attachments/assets/bbc055ce-efee-4381-9531-aeec308bb8db" />
+<img width="1917" height="927" alt="image" src="https://github.com/user-attachments/assets/d917b282-6732-4dbb-a66f-ca5b9a2f3c81" />
+<img width="1917" height="930" alt="image" src="https://github.com/user-attachments/assets/6ec6f27b-ab37-421c-8a4b-4673e7b7fd29" />
+<img width="1905" height="926" alt="image" src="https://github.com/user-attachments/assets/6c582267-c634-47b8-99ed-274d6b9aca4e" />
+
+
 
 ---
 
